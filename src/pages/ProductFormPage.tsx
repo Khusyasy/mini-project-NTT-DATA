@@ -8,6 +8,12 @@ import {
 } from '../services/api'
 import type { Product } from '../models/Product'
 
+import Button from '../components/shared/Button'
+import Input from '../components/shared/Input'
+import Loading from '../components/shared/Loading'
+import TextArea from '../components/shared/TextArea'
+import Select from '../components/shared/Select'
+
 function ProductFormPage() {
   const navigate = useNavigate()
   const { id } = useParams()
@@ -65,122 +71,85 @@ function ProductFormPage() {
     fetchData()
   }, [id, isEdit, navigate])
 
-  if (loading) return <div className="p-4">Loading...</div>
+  if (loading) return <Loading />
 
   return (
     <div className="space-y-2">
-      <button
-        className="px-2 py-1 rounded border border-cyan-500 text-cyan-500"
-        onClick={() => navigate(-1)}
-      >
+      <Button variant="secondary" onClick={() => navigate(-1)}>
         Back
-      </button>
+      </Button>
 
       <h1 className="text-2xl">{isEdit ? 'Edit Product' : 'Add Product'}</h1>
 
       {error && <p className="text-red-500">{error}</p>}
 
       <form className="space-y-4 max-w-lg" action={submitAction}>
-        <div className="space-y-1">
-          <label className="block" htmlFor="title">
-            Title
-          </label>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            className="w-full border p-2 rounded"
-            defaultValue={product?.title || ''}
+        <Input
+          label="Title"
+          name="title"
+          id="title"
+          defaultValue={product?.title || ''}
+          required
+        />
+
+        <TextArea
+          label="Description"
+          name="description"
+          id="description"
+          rows={3}
+          defaultValue={product?.description || ''}
+        />
+
+        <div className="flex gap-4">
+          <Input
+            label="Price"
+            type="number"
+            name="price"
+            id="price"
+            defaultValue={product?.price ?? 10}
+            min={0}
+            step={0.01}
             required
           />
-        </div>
-
-        <div className="space-y-1">
-          <label className="block" htmlFor="description">
-            Description
-          </label>
-          <textarea
-            name="description"
-            id="description"
-            className="w-full border p-2 rounded"
-            rows={3}
-            defaultValue={product?.description || ''}
+          <Input
+            label="Discount %"
+            type="number"
+            name="discountPercentage"
+            id="discountPercentage"
+            defaultValue={product?.discountPercentage ?? 0}
+            min={0}
+            max={100}
+            step={0.01}
           />
         </div>
 
         <div className="flex gap-4">
-          <div className="space-y-1 flex-1">
-            <label className="block" htmlFor="price">
-              Price
-            </label>
-            <input
-              type="number"
-              name="price"
-              id="price"
-              className="w-full border p-2 rounded"
-              defaultValue={product?.price ?? 10}
-              min={0}
-              step={0.01}
-              required
-            />
-          </div>
-          <div className="space-y-1 flex-1">
-            <label className="block" htmlFor="discountPercentage">
-              Discount %
-            </label>
-            <input
-              type="number"
-              name="discountPercentage"
-              id="discountPercentage"
-              className="w-full border p-2 rounded"
-              defaultValue={product?.discountPercentage ?? 0}
-              min={0}
-              max={100}
-              step={0.01}
-            />
-          </div>
-        </div>
-
-        <div className="flex gap-4">
-          <div className="space-y-1 flex-1">
-            <label className="block" htmlFor="category">
-              Category
-            </label>
-            <select
-              name="category"
-              id="category"
-              className="w-full border p-2 rounded"
-              defaultValue={product?.category || ''}
-            >
-              <option value="">Select category</option>
-              {categories.map(cat => (
+          <Select
+            label="Category"
+            name="category"
+            id="category"
+            defaultValue={product?.category || ''}
+          >
+            <option value="">Select category</option>
+            {categories &&
+              categories.map(cat => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>
               ))}
-            </select>
-          </div>
-          <div className="space-y-1 flex-1">
-            <label className="block" htmlFor="brand">
-              Brand
-            </label>
-            <input
-              type="text"
-              name="brand"
-              id="brand"
-              className="w-full border p-2 rounded"
-              defaultValue={product?.brand || ''}
-            />
-          </div>
+          </Select>
+          <Input
+            label="Brand"
+            type="text"
+            name="brand"
+            id="brand"
+            defaultValue={product?.brand || ''}
+          />
         </div>
 
-        <button
-          type="submit"
-          className="px-4 py-2 rounded bg-cyan-500 text-white disabled:opacity-50"
-          disabled={isPending}
-        >
-          {isPending ? 'Saving...' : isEdit ? 'Update Product' : 'Add Product'}
-        </button>
+        <Button type="submit" isLoading={isPending}>
+          {isEdit ? 'Update Product' : 'Add Product'}
+        </Button>
       </form>
     </div>
   )

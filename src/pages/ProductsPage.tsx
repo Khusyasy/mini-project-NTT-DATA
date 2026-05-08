@@ -3,6 +3,10 @@ import { getProducts, searchProducts, deleteProduct } from '../services/api'
 import type { ProductListItem } from '../models/Product'
 import { NavLink } from 'react-router'
 
+import Button from '../components/shared/Button'
+import Input from '../components/shared/Input'
+import Loading from '../components/shared/Loading'
+
 function ProductsPage() {
   const [products, setProducts] = useState<ProductListItem[]>([])
   const [total, setTotal] = useState(0)
@@ -49,31 +53,28 @@ function ProductsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center gap-4">
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl">Products</h1>
-          <NavLink
-            to="/products/add"
-            className="px-2 py-1 rounded bg-cyan-500 text-white"
-          >
-            + Add
+          <h1 className="text-2xl font-bold">Products</h1>
+          <NavLink to="/products/add">
+            <Button>+ Add</Button>
           </NavLink>
         </div>
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="border p-2 rounded w-1/2"
-          value={search}
-          onChange={e => {
-            setSearch(e.target.value)
-            setPage(0)
-            setLoading(true)
-          }}
-        />
+        <div className="w-1/2">
+          <Input
+            placeholder="Search products..."
+            value={search}
+            onChange={e => {
+              setSearch(e.target.value)
+              setPage(0)
+              setLoading(true)
+            }}
+          />
+        </div>
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <div className="space-y-4">
           <table className="w-full border-collapse">
@@ -102,26 +103,20 @@ function ProductsPage() {
                   <td className="p-2 border">{product.category}</td>
                   <td className="p-2 border">${product.price}</td>
                   <td className="p-2 border space-x-2">
-                    <NavLink
-                      to={`/products/${product.id}`}
-                      className="px-2 py-1 rounded bg-cyan-500 text-white"
-                    >
-                      View
+                    <NavLink to={`/products/${product.id}`}>
+                      <Button variant="secondary">View</Button>
                     </NavLink>
 
-                    <NavLink
-                      to={`/products/${product.id}/edit`}
-                      className="px-2 py-1 rounded bg-amber-500 text-white"
-                    >
-                      Edit
+                    <NavLink to={`/products/${product.id}/edit`}>
+                      <Button variant="warning">Edit</Button>
                     </NavLink>
 
-                    <button
-                      className="px-2 py-1 rounded bg-red-500 text-white"
+                    <Button
+                      variant="danger"
                       onClick={() => handleDelete(product)}
                     >
                       Delete
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -130,8 +125,8 @@ function ProductsPage() {
 
           {totalPages > 1 && (
             <div className="flex items-center gap-2">
-              <button
-                className="px-2 py-1 rounded border border-cyan-500 text-cyan-500"
+              <Button
+                variant="secondary"
                 disabled={page === 0}
                 onClick={() => {
                   setPage(p => p - 1)
@@ -139,12 +134,12 @@ function ProductsPage() {
                 }}
               >
                 &lt;
-              </button>
-              <span>
+              </Button>
+              <span className="text-sm text-gray-600">
                 {page + 1} / {totalPages}
               </span>
-              <button
-                className="px-2 py-1 rounded border border-cyan-500 text-cyan-500"
+              <Button
+                variant="secondary"
                 disabled={page >= totalPages - 1}
                 onClick={() => {
                   setPage(p => p + 1)
@@ -152,7 +147,7 @@ function ProductsPage() {
                 }}
               >
                 &gt;
-              </button>
+              </Button>
             </div>
           )}
         </div>

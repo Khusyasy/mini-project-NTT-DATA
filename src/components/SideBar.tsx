@@ -5,8 +5,9 @@ function SideBar() {
   const logout = useAuthStore(state => state.logout)
 
   const routes = [
-    { to: '/', label: 'Home' },
-    { to: '/products', label: 'Products' },
+    { to: '/', label: 'Home', end: true },
+    { to: '/products', label: 'Products', end: true },
+    { to: '/products/add', label: 'Add Product' },
     {
       to: '/login',
       label: 'Logout',
@@ -23,6 +24,7 @@ function SideBar() {
           <NavLink
             key={route.to}
             to={route.to}
+            end={route.end}
             onClick={route.onClick}
             className={({ isActive }) =>
               `px-4 py-2 block w-full hover:bg-cyan-100 ${isActive ? 'text-cyan-600 underline' : ' hover:underline'}`

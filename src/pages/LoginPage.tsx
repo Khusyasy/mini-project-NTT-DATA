@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router'
 import { postAuthLogin } from '../services/api'
 import { useAuthStore } from '../stores/auth'
 
+import Input from '../components/shared/Input'
+import Button from '../components/shared/Button'
+
 function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -47,35 +50,26 @@ function LoginPage() {
 
         {error && <p className="text-red-500">{error}</p>}
 
-        <form className="space-y-2" onSubmit={e => handleLogin(e)}>
-          <div className="space-y-1">
-            <label className="block">Username</label>
-            <input
-              type="text"
-              className="w-full border p-2 rounded"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-              required
-            />
-          </div>
+        <form className="space-y-4" onSubmit={e => handleLogin(e)}>
+          <Input
+            label="Username"
+            type="text"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            required
+          />
 
-          <div className="space-y-1">
-            <label className="block">Password</label>
-            <input
-              type="password"
-              className="w-full border p-2 rounded"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-            />
-          </div>
+          <Input
+            label="Password"
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
 
-          <button
-            type="submit"
-            className="w-full bg-cyan-500 text-white p-2 rounded hover:bg-cyan-600"
-          >
+          <Button type="submit" className="w-full">
             Login
-          </button>
+          </Button>
         </form>
       </div>
     </div>

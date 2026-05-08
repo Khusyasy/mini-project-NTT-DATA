@@ -6,7 +6,7 @@ function HomePage() {
   return (
     <div className="flex justify-between items-center">
       <div className="text-2xl">
-        Welcome user: {user?.firstName} {user?.lastName}
+        Welcome, {user?.firstName} {user?.lastName}
       </div>
     </div>
   )
