@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getProducts, searchProducts } from '../services/api'
+import { getProducts, searchProducts, deleteProduct } from '../services/api'
 import type { ProductListItem } from '../models/Product'
 import { NavLink } from 'react-router'
 
@@ -34,6 +34,18 @@ function ProductsPage() {
   }, [page, search])
 
   const totalPages = Math.ceil(total / limit)
+
+  const handleDelete = async (product: ProductListItem) => {
+    if (!window.confirm(`Delete "${product.title}"?`)) return
+
+    try {
+      await deleteProduct(product.id)
+      setProducts(products => products.filter(p => p.id !== product.id))
+      setTotal(total => total - 1)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -81,13 +93,19 @@ function ProductsPage() {
                   <td className="p-2 border">{product.brand}</td>
                   <td className="p-2 border">{product.category}</td>
                   <td className="p-2 border">${product.price}</td>
-                  <td className="p-2 border">
+                  <td className="p-2 border space-x-2">
                     <NavLink
                       to={`/products/${product.id}`}
-                      className="px-2 py-1 rounded border bg-cyan-500 text-white"
+                      className="px-2 py-1 rounded bg-cyan-500 text-white"
                     >
                       View
                     </NavLink>
+                    <button
+                      className="px-2 py-1 rounded bg-red-500 text-white"
+                      onClick={() => handleDelete(product)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

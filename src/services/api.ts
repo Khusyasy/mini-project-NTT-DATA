@@ -41,3 +41,11 @@ export async function getProductsById(id: number) {
   const json = await response.json()
   return json as Product
 }
+
+export async function deleteProduct(id: number) {
+  const response = await fetch(`${BASE_URL}/products/${id}`, {
+    method: 'DELETE',
+  })
+  const json = await response.json()
+  return json as Product & { isDeleted: boolean; deletedOn: string }
+}
