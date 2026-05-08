@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { postAuthLogin } from '../services/api'
 import { useAuthStore } from '../stores/auth'
@@ -9,7 +9,14 @@ function LoginPage() {
   const [error, setError] = useState('')
 
   const setUser = useAuthStore(state => state.setUser)
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/')
+    }
+  }, [isLoggedIn, navigate])
 
   const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()

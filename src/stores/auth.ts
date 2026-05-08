@@ -11,10 +11,10 @@ interface AuthStoreState {
 
 export const useAuthStore = create<AuthStoreState>()(
   persist(
-    (set) => ({
+    set => ({
       user: null,
       isLoggedIn: false,
-      setUser: (user) => set({ user, isLoggedIn: !!user }),
+      setUser: user => set({ user, isLoggedIn: !!user }),
       logout: () => set({ user: null, isLoggedIn: false }),
     }),
     {
