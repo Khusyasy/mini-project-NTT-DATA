@@ -1,4 +1,4 @@
-import type { Product, ProductsResponse } from '../models/Product'
+import type { Product, ProductFormData, ProductsResponse } from '../models/Product'
 import type { User } from '../models/User'
 
 const BASE_URL = '/api'
@@ -48,4 +48,20 @@ export async function deleteProduct(id: number) {
   })
   const json = await response.json()
   return json as Product & { isDeleted: boolean; deletedOn: string }
+}
+
+export async function addProduct(data: ProductFormData) {
+  const response = await fetch(`${BASE_URL}/products/add`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  const json = await response.json()
+  return json as Product
+}
+
+export async function getCategoryList() {
+  const response = await fetch(`${BASE_URL}/products/category-list`)
+  const json = await response.json()
+  return json as string[]
 }

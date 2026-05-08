@@ -50,7 +50,15 @@ function ProductsPage() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl">Products</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl">Products</h1>
+          <NavLink
+            to="/products/add"
+            className="px-2 py-1 rounded bg-cyan-500 text-white"
+          >
+            + Add
+          </NavLink>
+        </div>
         <input
           type="text"
           placeholder="Search products..."
@@ -100,6 +108,7 @@ function ProductsPage() {
                     >
                       View
                     </NavLink>
+
                     <button
                       className="px-2 py-1 rounded bg-red-500 text-white"
                       onClick={() => handleDelete(product)}

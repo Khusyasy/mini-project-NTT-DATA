@@ -53,3 +53,12 @@ export interface ProductsResponse {
   skip: number
   limit: number
 }
+
+export interface ProductFormData {
+  title: string
+  description: string
+  price: number
+  discountPercentage: number
+  category: string
+  brand: string
+}

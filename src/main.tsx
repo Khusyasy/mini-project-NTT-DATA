@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage.tsx'
 import LoginPage from './pages/LoginPage.tsx'
 import ProductsPage from './pages/ProductsPage.tsx'
 import ProductDetailPage from './pages/ProductDetailPage.tsx'
+import ProductFormPage from './pages/ProductFormPage.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
         <Route element={<DefaultLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/add" element={<ProductFormPage />} />
           <Route path="/products/:id" element={<ProductDetailPage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
