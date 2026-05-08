@@ -65,3 +65,13 @@ export async function getCategoryList() {
   const json = await response.json()
   return json as string[]
 }
+
+export async function updateProduct(id: number, data: ProductFormData) {
+  const response = await fetch(`${BASE_URL}/products/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  const json = await response.json()
+  return json as Product
+}

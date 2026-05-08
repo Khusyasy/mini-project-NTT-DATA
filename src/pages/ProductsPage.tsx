@@ -109,6 +109,13 @@ function ProductsPage() {
                       View
                     </NavLink>
 
+                    <NavLink
+                      to={`/products/${product.id}/edit`}
+                      className="px-2 py-1 rounded bg-amber-500 text-white"
+                    >
+                      Edit
+                    </NavLink>
+
                     <button
                       className="px-2 py-1 rounded bg-red-500 text-white"
                       onClick={() => handleDelete(product)}
